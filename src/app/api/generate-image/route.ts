@@ -10,6 +10,7 @@ export async function POST(request: Request) {
     // TODO: Call your Image Generation API here
     // For now, we'll just echo back the text
     // Modal API goes here, the link goes in the await fetch function and it should return an image
+
     console.log(text);
 
     const url = new URL("https://d3n-ops--aurora-be-model-health.modal.run/");
