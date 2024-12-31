@@ -7,6 +7,12 @@ export async function POST(request: Request) {
     const body = await request.json();
     const { text } = body;
 
+    const apiSecret = request.headers.get("X-API-SECRET");
+
+    if (apiSecret != process.env.API_SECRET) {
+      return NextResponse.json({ error: "Unauthorized " }, { status: 401 });
+    }
+
     // TODO: Call your Image Generation API here
     // For now, we'll just echo back the text
     // Modal API goes here, the link goes in the await fetch function and it should return an image
@@ -37,9 +43,9 @@ export async function POST(request: Request) {
 
     const imageBuffer = await response.arrayBuffer();
 
-    const filename = "${crypto.randomUUID()}.jpg";
+    const imageFile = "${crypto.randomUUID()}.jpg";
 
-    const blob = await put(filename, imageBuffer, {
+    const blob = await put(imageFile, imageBuffer, {
       access: "public",
       contentType: "image/jpeg",
     });
